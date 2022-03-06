@@ -214,6 +214,18 @@ void TransportArbitrator::freeClientList(PendingClientInfo *list)
     }
 }
 
+bool TransportArbitrator::hasMessage(void) 
+{
+    assert(m_sharedTransport && "shared transport is not set");
+    return m_sharedTransport->hasMessage();
+}
+
+void TransportArbitrator::waitMessage(void)
+{
+    assert(m_sharedTransport && "shared transport is not set");
+    m_sharedTransport->waitMessage();
+}
+
 TransportArbitrator::PendingClientInfo::PendingClientInfo(void)
 : m_request(NULL)
 , m_sem(0)

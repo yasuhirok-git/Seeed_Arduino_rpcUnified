@@ -97,6 +97,10 @@ public:
      */
     virtual void setCrc16(Crc16 *crcImpl);
 
+    virtual bool hasMessage(void) override;
+
+    virtual void waitMessage(void) override;
+
 protected:
     Transport *m_sharedTransport; //!< Transport being shared through this arbitrator.
     Codec *m_codec;               //!< Codec used to read incoming message headers.
