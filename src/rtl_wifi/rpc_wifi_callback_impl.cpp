@@ -83,9 +83,9 @@ int32_t rpc_tcp_recv_fn(uint32_t func, const binary_t * arg, const binary_t * tp
     }
 
     if(p_data->data && p_addr->data){
-        if(*((uint32_t *)p_addr->data) != NULL){
+        if(*((uint32_t *)p_addr->data) != 0){
             pbuf_payload_p = erpc_malloc(p_data->dataLength);
-            if(pbuf_payload_p != NULL){
+            if(pbuf_payload_p != nullptr){
                 memcpy(pbuf_payload_p,p_data->data,p_data->dataLength);
                 pbuf_p = (struct pbuf *)erpc_malloc(sizeof(pbuf));
                 if(pbuf_p != NULL){

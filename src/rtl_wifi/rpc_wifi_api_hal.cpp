@@ -955,7 +955,6 @@ void tcp_recved(struct tcp_pcb *pcb, u16_t len)
     binary_t pcb_out_b;
     binary_t pcb_in_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
 
     if(pcb == NULL){
         return;
@@ -967,7 +966,7 @@ void tcp_recved(struct tcp_pcb *pcb, u16_t len)
     pcb_in_b.data = (uint8_t *)&rpc_pcb;
     pcb_in_b.dataLength = sizeof(rpc_tcp_pcb);
 
-    ret = rpc_tcp_recved(&pcb_in_b,&pcb_out_b,len);
+    (void)rpc_tcp_recved(&pcb_in_b,&pcb_out_b,len);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -980,7 +979,6 @@ void tcp_abort(struct tcp_pcb *pcb)
     binary_t pcb_out_b;
     binary_t pcb_in_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
 
     if(pcb == NULL){
         return;
@@ -992,7 +990,7 @@ void tcp_abort(struct tcp_pcb *pcb)
     pcb_in_b.data = (uint8_t *)&rpc_pcb;
     pcb_in_b.dataLength = sizeof(rpc_tcp_pcb);
 
-    ret = rpc_tcp_abort(&pcb_in_b,&pcb_out_b);
+    (void)rpc_tcp_abort(&pcb_in_b,&pcb_out_b);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -1132,7 +1130,6 @@ struct tcp_pcb * tcp_listen_with_backlog(struct tcp_pcb *pcb, u8_t backlog)
     binary_t pcb_out_b;
     binary_t pcb_in_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
 
     if(pcb == NULL){
         return NULL;
@@ -1144,7 +1141,7 @@ struct tcp_pcb * tcp_listen_with_backlog(struct tcp_pcb *pcb, u8_t backlog)
 
     RPC_DEBUG("in:pcb:%x,back:%d",pcb->client_addr,backlog);
 
-    ret = rpc_tcp_listen_with_backlog(&pcb_in_b,&pcb_out_b,backlog);
+    (void)rpc_tcp_listen_with_backlog(&pcb_in_b,&pcb_out_b,backlog);
 
     RPC_DEBUG("out:retpcb:%x",pcb->client_addr);
 
@@ -1189,7 +1186,6 @@ void tcp_arg(struct tcp_pcb *pcb, void *arg)
     binary_t func_b;
     rpc_tcp_pcb rpc_pcb;
     uint32_t arg_addr = (uint32_t)arg;
-    int32_t ret;
 
     if(pcb == NULL){
         return;
@@ -1204,7 +1200,7 @@ void tcp_arg(struct tcp_pcb *pcb, void *arg)
     func_b.data = (uint8_t *)&arg_addr;
     func_b.dataLength = 4;
 
-    ret = rpc_tcp_arg(&pcb_in_b,&pcb_out_b,&func_b);
+    (void)rpc_tcp_arg(&pcb_in_b,&pcb_out_b,&func_b);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -1218,7 +1214,6 @@ void tcp_accept(struct tcp_pcb *pcb, tcp_accept_fn accept)
     binary_t pcb_in_b;
     binary_t func_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
     uint32_t func_addr = (uint32_t)accept;
 
     if(pcb == NULL){
@@ -1234,7 +1229,7 @@ void tcp_accept(struct tcp_pcb *pcb, tcp_accept_fn accept)
 
     RPC_DEBUG("pcb:%x,func:%x",rpc_pcb.client_addr,accept);
 
-    ret = rpc_tcp_accept(&pcb_in_b,&pcb_out_b,&func_b);
+    (void)rpc_tcp_accept(&pcb_in_b,&pcb_out_b,&func_b);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -1248,7 +1243,6 @@ void tcp_err(struct tcp_pcb *pcb, tcp_err_fn err)
     binary_t pcb_in_b;
     binary_t func_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
     uint32_t func_addr = (uint32_t)err;
 
     if(pcb == NULL){
@@ -1264,7 +1258,7 @@ void tcp_err(struct tcp_pcb *pcb, tcp_err_fn err)
     func_b.data = (uint8_t *)&func_addr;
     func_b.dataLength = 4;
 
-    ret = rpc_tcp_err(&pcb_in_b,&pcb_out_b,&func_b);
+    (void)rpc_tcp_err(&pcb_in_b,&pcb_out_b,&func_b);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -1278,7 +1272,6 @@ void tcp_recv(struct tcp_pcb *pcb, tcp_recv_fn recv)
     binary_t pcb_in_b;
     binary_t func_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
     uint32_t func_addr = (uint32_t)recv;
 
     if(pcb == NULL){
@@ -1294,7 +1287,7 @@ void tcp_recv(struct tcp_pcb *pcb, tcp_recv_fn recv)
     func_b.data = (uint8_t *)&func_addr;
     func_b.dataLength = 4;
 
-    ret = rpc_tcp_recv(&pcb_in_b,&pcb_out_b,&func_b);
+    (void)rpc_tcp_recv(&pcb_in_b,&pcb_out_b,&func_b);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -1308,7 +1301,6 @@ void tcp_sent(struct tcp_pcb *pcb, tcp_sent_fn sent)
     binary_t pcb_in_b;
     binary_t func_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
     uint32_t func_addr = (uint32_t)sent;
 
     if(pcb == NULL){
@@ -1324,7 +1316,7 @@ void tcp_sent(struct tcp_pcb *pcb, tcp_sent_fn sent)
     func_b.data = (uint8_t *)&func_addr;
     func_b.dataLength = 4;
 
-    ret = rpc_tcp_sent(&pcb_in_b,&pcb_out_b,&func_b);
+    (void)rpc_tcp_sent(&pcb_in_b,&pcb_out_b,&func_b);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);
@@ -1338,7 +1330,6 @@ void tcp_poll(struct tcp_pcb *pcb, tcp_poll_fn poll, u8_t interval)
     binary_t pcb_in_b;
     binary_t func_b;
     rpc_tcp_pcb rpc_pcb;
-    int32_t ret;
     uint32_t func_addr = (uint32_t)poll;
 
     if(pcb == NULL){
@@ -1354,7 +1345,7 @@ void tcp_poll(struct tcp_pcb *pcb, tcp_poll_fn poll, u8_t interval)
     func_b.data = (uint8_t *)&func_addr;
     func_b.dataLength = 4;
 
-    ret = rpc_tcp_poll(&pcb_in_b,&pcb_out_b,&func_b,interval);
+    (void)rpc_tcp_poll(&pcb_in_b,&pcb_out_b,&func_b,interval);
 
     if(pcb_out_b.data){
         copy_rtp_to_tp((rpc_tcp_pcb *)pcb_out_b.data,pcb);

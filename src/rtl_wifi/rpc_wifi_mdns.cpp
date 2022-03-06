@@ -42,7 +42,7 @@ esp_err_t mdns_init(void)
 void mdns_free(void)
 {
     FUNC_ENTRY;
-    esp_err_t ret = rpc_mdns_free();
+    (void)rpc_mdns_free();
     FUNC_EXIT;
 }
 
@@ -65,7 +65,7 @@ esp_err_t mdns_instance_name_set(const char * instance_name)
 
 esp_err_t mdns_service_add(const char * instance_name, const char * service_type, const char * proto, uint16_t port, mdns_txt_item_t txt[], size_t num_items)
 {
-    int count = 0;
+    size_t count = 0;
     esp_err_t ret;
 
     FUNC_ENTRY;
@@ -113,7 +113,7 @@ void mdns_query_results_free(mdns_result_t * results)
 {
     mdns_result_t * r;
     mdns_ip_addr_t * a;
-    int i;
+    size_t i;
     
     FUNC_ENTRY;
     r = results;
@@ -197,13 +197,13 @@ esp_err_t mdns_query_ptr(const char * service_type, const char * proto, uint32_t
 
                     for(count_txt = 0 ; count_txt < rpc_result->txt_count ; count_txt++){
                         uint16_t * key_size;
-                        uint16_t * value_size;
+                        // uint16_t * value_size;
                         char * key;
                         char * value;
                         ret = rpc_mdns_query_ptr_result_txt(count_result,count_txt,&binary_txt);
                         if(ret == ESP_OK){
                             key_size = (uint16_t *)&binary_txt.data[0];
-                            value_size = (uint16_t *)&binary_txt.data[2];
+                            // value_size = (uint16_t *)&binary_txt.data[2];
                             key = (char *)&binary_txt.data[4];
                             value = (char *)&binary_txt.data[4 + *key_size];
 
