@@ -37,6 +37,7 @@ namespace erpc {
 class HardwareSerialEx : public HardwareSerial
 {
   public:
+	HardwareSerialEx() : maxReadAvailable { 1 }, maxWriteAvailable { 1 } { }
     virtual void begin(unsigned long) {}
     virtual void begin(unsigned long, uint16_t) {}
     virtual void end() {}
@@ -48,8 +49,14 @@ class HardwareSerialEx : public HardwareSerial
     using Print::write; // pull in write(str) and write(buf, size) from Print
     virtual operator bool() = 0;
 
-    virtual void waitForRead() = 0;
-    virtual void waitForWrite(size_t) = 0;
+    virtual void waitForRead(size_t n = 1) = 0;
+    virtual void waitForWrite(size_t n = 1) = 0;
+    virtual size_t getMaxReadAvailable() const { return 1; }
+    virtual size_t getMaxWriteAvailable() const { return 1; }
+    
+  protected:
+    size_t maxReadAvailable;
+    size_t maxWriteAvailable;
 };
 
 class EUart : public HardwareSerialEx
@@ -72,8 +79,10 @@ class EUart : public HardwareSerialEx
 
     operator bool() { return true; }
 
-    virtual void waitForRead() override;
-    virtual void waitForWrite(size_t n) override;
+    virtual void waitForRead(size_t) override;
+    virtual void waitForWrite(size_t) override;
+    virtual size_t getMaxReadAvailable() const override { return maxReadAvailable; }
+    virtual size_t getMaxWriteAvailable() const override { return maxWriteAvailable; }
 
   private:
     SERCOM *sercom;
@@ -90,10 +99,12 @@ class EUart : public HardwareSerialEx
     uint32_t ul_pinMaskRTS;
     uint8_t uc_pinCTS;
 
-    volatile bool is_waiting_for_read;
+    volatile size_t read_request_size;
     Semaphore sem_read;
-    volatile size_t request_size;
+    volatile size_t write_request_size;
     Semaphore sem_write;
+    size_t maxReadAvailable;
+    size_t maxWriteAvailable;
 
     SercomNumberStopBit extractNbStopBit(uint16_t config);
     SercomUartCharSize extractCharSize(uint16_t config);
@@ -129,13 +140,15 @@ public:
      */
     virtual erpc_status_t init(void);
 
-    virtual bool hasMessage(void);
+    virtual bool hasMessage(void) override;
 
     virtual void waitMessage(void) override;
 
 protected:
     HardwareSerialEx *m_uartDrv; /*!< Access structure of the USART Driver */
     unsigned long m_baudrate;  /*!< EUart baud rate*/
+    size_t maxReadAvailable;
+    size_t maxWriteAvailable;
 
 private:
     /*!
