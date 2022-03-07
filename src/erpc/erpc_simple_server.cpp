@@ -198,11 +198,17 @@ erpc_status_t SimpleServer::run(RequestContext &request)
 #include "Arduino.h"
 erpc_status_t SimpleServer::poll(void)
 {
-    if (m_isServerOn)
+     if (m_isServerOn)
     {
-        m_transport->waitMessage();
-        return runInternal();
-    }
+        if (m_transport->hasMessage())
+        {
+            return runInternal();
+        }
+        else
+        {
+            return kErpcStatus_Success;
+        }
+     }
     return kErpcStatus_ServerIsDown;
 }
 

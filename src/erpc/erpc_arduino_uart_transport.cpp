@@ -361,16 +361,8 @@ erpc_status_t UartTransport::underlyingSend(const uint8_t *data, uint32_t size)
   return kErpcStatus_Success; // return size != offset ? kErpcStatus_SendFailed : kErpcStatus_Success;
 }
 
+// This function always returns true, receive is implemented as blocking function.
 bool UartTransport::hasMessage()
 {
-  if (m_uartDrv->available())
-  {
-    return true;
-  }
-  return false;
-}
-
-void UartTransport::waitMessage()
-{
-  m_uartDrv->waitForRead();
+  return true;
 }

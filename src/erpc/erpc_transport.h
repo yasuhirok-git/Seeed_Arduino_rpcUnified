@@ -85,12 +85,6 @@ namespace erpc
      */
         virtual void setCrc16(Crc16 *crcImpl){ (void)crcImpl; };
 
-        /*!
-     * @brief Wait for an incoming message.
-     * 
-     * @retval wait until a message is available
-     */
-        virtual void waitMessage(void) { }
     };
 
     /*!
@@ -116,7 +110,6 @@ namespace erpc
      */
         virtual Transport *create(void) = 0;
     };
-
 } // namespace erpc
 
 /*! @} */

@@ -142,8 +142,6 @@ public:
 
     virtual bool hasMessage(void) override;
 
-    virtual void waitMessage(void) override;
-
 protected:
     HardwareSerialEx *m_uartDrv; /*!< Access structure of the USART Driver */
     unsigned long m_baudrate;  /*!< EUart baud rate*/
