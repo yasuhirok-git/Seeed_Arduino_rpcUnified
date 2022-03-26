@@ -52,45 +52,47 @@ extern "C" {
 // struct pbuf;
 // struct netif;
 
-// #if LWIP_MPU_COMPATIBLE
-// #define API_VAR_REF(name)               (*(name))
-// #define API_VAR_DECLARE(type, name)     type * name
-// #define API_VAR_ALLOC(type, pool, name, errorval) do { \
-//                                           name = (type *)memp_malloc(pool); \
-//                                           if (name == NULL) { \
-//                                             return errorval; \
-//                                           } \
-//                                         } while(0)
-// #define API_VAR_ALLOC_POOL(type, pool, name, errorval) do { \
-//                                           name = (type *)LWIP_MEMPOOL_ALLOC(pool); \
-//                                           if (name == NULL) { \
-//                                             return errorval; \
-//                                           } \
-//                                         } while(0)
-// #define API_VAR_FREE(pool, name)        memp_free(pool, name)
-// #define API_VAR_FREE_POOL(pool, name)   LWIP_MEMPOOL_FREE(pool, name)
-// #define API_EXPR_REF(expr)              (&(expr))
-// #if LWIP_NETCONN_SEM_PER_THREAD
-// #define API_EXPR_REF_SEM(expr)          (expr)
-// #else
-// #define API_EXPR_REF_SEM(expr)          API_EXPR_REF(expr)
-// #endif
-// #define API_EXPR_DEREF(expr)            expr
-// #define API_MSG_M_DEF(m)                m
-// #define API_MSG_M_DEF_C(t, m)           t m
-// #else /* LWIP_MPU_COMPATIBLE */
-// #define API_VAR_REF(name)               name
-// #define API_VAR_DECLARE(type, name)     type name
-// #define API_VAR_ALLOC(type, pool, name, errorval)
-// #define API_VAR_ALLOC_POOL(type, pool, name, errorval)
-// #define API_VAR_FREE(pool, name)
-// #define API_VAR_FREE_POOL(pool, name)
-// #define API_EXPR_REF(expr)              expr
-// #define API_EXPR_REF_SEM(expr)          API_EXPR_REF(expr)
-// #define API_EXPR_DEREF(expr)            (*(expr))
-// #define API_MSG_M_DEF(m)                *m
-// #define API_MSG_M_DEF_C(t, m)           const t * m
-// #endif /* LWIP_MPU_COMPATIBLE */
+#if 0
+#if LWIP_MPU_COMPATIBLE
+#define API_VAR_REF(name)               (*(name))
+#define API_VAR_DECLARE(type, name)     type * name
+#define API_VAR_ALLOC(type, pool, name, errorval) do { \
+                                          name = (type *)memp_malloc(pool); \
+                                          if (name == NULL) { \
+                                            return errorval; \
+                                          } \
+                                        } while(0)
+#define API_VAR_ALLOC_POOL(type, pool, name, errorval) do { \
+                                          name = (type *)LWIP_MEMPOOL_ALLOC(pool); \
+                                          if (name == NULL) { \
+                                            return errorval; \
+                                          } \
+                                        } while(0)
+#define API_VAR_FREE(pool, name)        memp_free(pool, name)
+#define API_VAR_FREE_POOL(pool, name)   LWIP_MEMPOOL_FREE(pool, name)
+#define API_EXPR_REF(expr)              (&(expr))
+#if LWIP_NETCONN_SEM_PER_THREAD
+#define API_EXPR_REF_SEM(expr)          (expr)
+#else
+#define API_EXPR_REF_SEM(expr)          API_EXPR_REF(expr)
+#endif
+#define API_EXPR_DEREF(expr)            expr
+#define API_MSG_M_DEF(m)                m
+#define API_MSG_M_DEF_C(t, m)           t m
+#else /* LWIP_MPU_COMPATIBLE */
+#define API_VAR_REF(name)               name
+#define API_VAR_DECLARE(type, name)     type name
+#define API_VAR_ALLOC(type, pool, name, errorval)
+#define API_VAR_ALLOC_POOL(type, pool, name, errorval)
+#define API_VAR_FREE(pool, name)
+#define API_VAR_FREE_POOL(pool, name)
+#define API_EXPR_REF(expr)              expr
+#define API_EXPR_REF_SEM(expr)          API_EXPR_REF(expr)
+#define API_EXPR_DEREF(expr)            (*(expr))
+#define API_MSG_M_DEF(m)                *m
+#define API_MSG_M_DEF_C(t, m)           const t * m
+#endif /* LWIP_MPU_COMPATIBLE */
+#endif
 
 // err_t tcpip_send_msg_wait_sem(tcpip_callback_fn fn, void *apimsg, sys_sem_t* sem);
 
