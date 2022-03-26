@@ -394,18 +394,20 @@ void             tcp_poll    (struct tcp_pcb *pcb, tcp_poll_fn poll, u8_t interv
 /** @ingroup tcp_raw */
 #define          tcp_nagle_disabled(pcb)  (((pcb)->flags & TF_NODELAY) != 0)
 
-// #if TCP_LISTEN_BACKLOG
-// #define          tcp_backlog_set(pcb, new_backlog) do { \
-//   LWIP_ASSERT("pcb->state == LISTEN (called for wrong pcb?)", (pcb)->state == LISTEN); \
-//   ((struct tcp_pcb_listen *)(pcb))->backlog = ((new_backlog) ? (new_backlog) : 1); } while(0)
-// void             tcp_backlog_delayed(struct tcp_pcb* pcb);
-// void             tcp_backlog_accepted(struct tcp_pcb* pcb);
-// #else  /* TCP_LISTEN_BACKLOG */
-// #define          tcp_backlog_set(pcb, new_backlog)
-// #define          tcp_backlog_delayed(pcb)
-// #define          tcp_backlog_accepted(pcb)
-// #endif /* TCP_LISTEN_BACKLOG */
-// #define          tcp_accepted(pcb) /* compatibility define, not needed any more */
+#if 0
+#if TCP_LISTEN_BACKLOG
+#define          tcp_backlog_set(pcb, new_backlog) do { \
+  LWIP_ASSERT("pcb->state == LISTEN (called for wrong pcb?)", (pcb)->state == LISTEN); \
+  ((struct tcp_pcb_listen *)(pcb))->backlog = ((new_backlog) ? (new_backlog) : 1); } while(0)
+void             tcp_backlog_delayed(struct tcp_pcb* pcb);
+void             tcp_backlog_accepted(struct tcp_pcb* pcb);
+#else  /* TCP_LISTEN_BACKLOG */
+#define          tcp_backlog_set(pcb, new_backlog)
+#define          tcp_backlog_delayed(pcb)
+#define          tcp_backlog_accepted(pcb)
+#endif /* TCP_LISTEN_BACKLOG */
+#define          tcp_accepted(pcb) /* compatibility define, not needed any more */
+#endif
 
 void             tcp_recved  (struct tcp_pcb *pcb, u16_t len);
 err_t            tcp_bind    (struct tcp_pcb *pcb, const ip_addr_t *ipaddr,
