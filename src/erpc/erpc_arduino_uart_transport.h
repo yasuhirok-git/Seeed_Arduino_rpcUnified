@@ -37,7 +37,7 @@ namespace erpc {
 class HardwareSerialEx : public HardwareSerial
 {
   public:
-	HardwareSerialEx() : maxReadAvailable { 1 }, maxWriteAvailable { 1 } { }
+	HardwareSerialEx() { }
     virtual void begin(unsigned long) {}
     virtual void begin(unsigned long, uint16_t) {}
     virtual void end() {}
@@ -51,12 +51,8 @@ class HardwareSerialEx : public HardwareSerial
 
     virtual void waitForRead(size_t n = 1) = 0;
     virtual void waitForWrite(size_t n = 1) = 0;
-    virtual size_t getMaxReadAvailable() const { return 1; }
-    virtual size_t getMaxWriteAvailable() const { return 1; }
-    
-  protected:
-    size_t maxReadAvailable;
-    size_t maxWriteAvailable;
+    virtual size_t getMaxReadAvailable() const = 0;
+    virtual size_t getMaxWriteAvailable() const = 0;
 };
 
 class EUart : public HardwareSerialEx
@@ -64,15 +60,15 @@ class EUart : public HardwareSerialEx
   public:
     EUart(SERCOM *_s, uint8_t _pinRX, uint8_t _pinTX, SercomRXPad _padRX, SercomUartTXPad _padTX);
     EUart(SERCOM *_s, uint8_t _pinRX, uint8_t _pinTX, SercomRXPad _padRX, SercomUartTXPad _padTX, uint8_t _pinRTS, uint8_t _pinCTS);
-    void begin(unsigned long baudRate);
-    void begin(unsigned long baudrate, uint16_t config);
-    void end();
-    int available();
-    int availableForWrite();
-    int peek();
-    int read();
-    void flush();
-    size_t write(const uint8_t data);
+    void begin(unsigned long baudRate) override;
+    void begin(unsigned long baudrate, uint16_t config) override;
+    void end() override;
+    int available() override;
+    int availableForWrite() override;
+    int peek() override;
+    int read() override;
+    void flush() override;
+    size_t write(const uint8_t data) override;
     using Print::write; // pull in write(str) and write(buf, size) from Print
 
     void IrqHandler();

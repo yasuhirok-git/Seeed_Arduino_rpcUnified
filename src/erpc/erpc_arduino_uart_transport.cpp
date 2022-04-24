@@ -21,7 +21,7 @@ EUart::EUart(SERCOM *_s, uint8_t _pinRX, uint8_t _pinTX, SercomRXPad _padRX, Ser
 }
 
 EUart::EUart(SERCOM *_s, uint8_t _pinRX, uint8_t _pinTX, SercomRXPad _padRX, SercomUartTXPad _padTX, uint8_t _pinRTS, uint8_t _pinCTS) :
-  read_request_size{ false }, sem_read{ 0 }, write_request_size{ 0 }, sem_write{ 0 }
+  read_request_size{false}, sem_read{0}, write_request_size{0}, sem_write{0}
 {
   sercom = _s;
   uc_pinRX = _pinRX;
